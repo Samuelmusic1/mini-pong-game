@@ -1,42 +1,44 @@
-const btnClick1 = document.querySelector('#p1Btn')
-const btnClick2 = document.querySelector('#p2Btn')
+const p1 = {
+    score: 0,
+    btn: document.querySelector('#p1Btn'),
+    display: document.querySelector('#p1Score'),
+}
+
+const p2 = {
+    score: 0,
+    btn: document.querySelector('#p2Btn'),
+    display: document.querySelector('#p2Score'),
+}
+
+
 const btnClick3 = document.querySelector('#rst')
-const player1Score = document.querySelector('#p1Score')
-const player2Score = document.querySelector('#p2Score')
+
 const resetBtn = document.querySelector('#rst')
 const winScoreSelect = document.querySelector('#winscore')
 
-let p1Score = 0
-let p2Score = 0
 let winningScore = 3
 let isGameOver = false
 
-btnClick1.addEventListener('click', () => {
+function scoreUpdate(player, opponent) {
     if(!isGameOver) {
-        p1Score += 1
-        if (p1Score === winningScore) {
+        player.score += 1
+        if (player.score === winningScore) {
             isGameOver = true
-            p1Score.classlist.add('has-text-success')
-            p2Score.classlist.add('has-text-danger')
-            btnClick1.disabled = true
-            btnClick2.disabled = true
+            player.display.classlist.add('has-text-success')
+            opponent.score.classlist.add('has-text-danger')
+            player.btn.disabled = true
+            opponent.btn.disabled = true
         }
     }
-    player1Score.textContent = p1Score
+    player.display.textContent = player.score
+}
+
+p1.btn.addEventListener('click', () => {
+    scoreUpdate(p1, p2)
 } )
 
-btnClick2.addEventListener('click', () => {
-    if(!isGameOver) {
-        p2Score += 1
-        if (p2Score === winningScore) {
-            isGameOver = true
-            p2Score.classlist.add('has-text-success')
-            p1Score.classlist.add('has-text-danger')
-            btnClick1.disabled = true
-            btnClick2.disabled = true
-        }
-    }
-    player2Score.textContent = p2Score
+p2.btn.addEventListener('click', () => {
+    scoreUpdate(p2, p1)
 } )
 
 winScoreSelect.addEventListener('change', () => {
@@ -48,12 +50,10 @@ resetBtn.addEventListener('click', reset)
 
 function reset() {
     isGameOver = false
-    p1Score = 0
-    p2Score = 0
-    player1Score.textContent = 0
-    player2Score.textContent = 0
-    p1Score.classlist.remove('has-text-success' , 'has-text-danger')
-    p2Score.classlist.remove('has-text-success' , 'has-text-danger')
-    btnClick1.disabled = false
-    btnClick2.disabled = false
+    for (let p of [p1, p2]) {
+        p.score = 0
+        p.display.textContent = 0
+        p.score.classlist.remove('has-text-success' , 'has-text-danger')
+        p.btn.disabled = false
+    }
 }
