@@ -10,9 +10,6 @@ const p2 = {
     display: document.querySelector('#p2Score'),
 }
 
-
-const btnClick3 = document.querySelector('#rst')
-
 const resetBtn = document.querySelector('#rst')
 const winScoreSelect = document.querySelector('#winscore')
 
@@ -24,8 +21,8 @@ function scoreUpdate(player, opponent) {
         player.score += 1
         if (player.score === winningScore) {
             isGameOver = true
-            player.display.classlist.add('has-text-success')
-            opponent.score.classlist.add('has-text-danger')
+            player.display.classList.add('has-text-success')
+            opponent.display.classList.add('has-text-danger')
             player.btn.disabled = true
             opponent.btn.disabled = true
         }
